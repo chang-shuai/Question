@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Question</string>
+    <string name="login_title">登录界面</string>
+    <string name="login_name_hint">请输入用户名</string>
+    <string name="login_password_hint">请输入密码</string>
+    <string name="login_commit">登录</string>
+    <string name="login_off_line">离线</string>
+    <string name="choice_dealer">选择经销商</string>
+    <string name="choice_title">问卷调查</string>
+    <string name="choice_start_restart">开始/继续答题</string>
+    <string name="choice_result_show">结果预览</string>
+    <string name="choice_result_report">结果生成</string>
+    <string name="choice_dealer_hint">请登录后下载问卷及经销商信息</string>
+    <string name="answer_quest_list_title">题目列表</string>
+    <string name="generate_pdf_path_title">PDF文件路径</string>
+    <string name="ok">确定</string>
+    <string name="load_update_load">下载题目</string>
+    <string name="load_update_update">上传数据</string>
+    <string name="select_camera_or_photo">请选择</string>
+
+</resources>
