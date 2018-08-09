@@ -10,14 +10,14 @@ public class AnswerOption extends DataSupport implements Serializable{
     private int mid;
     private int qid;
     private boolean selected;
-    private List<String> imagePaths;
+    private String tips;
 
-    public List<String> getImagePaths() {
-        return imagePaths;
+    public String getTips() {
+        return tips;
     }
 
-    public void setImagePaths(List<String> imagePaths) {
-        this.imagePaths = imagePaths;
+    public void setTips(String tips) {
+        this.tips = tips;
     }
 
     public int getId() {

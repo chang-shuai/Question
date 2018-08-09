@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+
 import com.example.bowan.question.entity.Dealer;
 import com.example.bowan.question.entity.Question;
 
@@ -90,6 +93,20 @@ public class AnswerActivity extends AppCompatActivity implements AnswerQuestList
             default:
                 break;
         }
+    }
+
+    @Override
+    public void increaseWeight() {
+        FrameLayout frameLayout = findViewById(R.id.fragment_container);
+        frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT, 3));
+
+    }
+
+    @Override
+    public void reduceWeight() {
+        FrameLayout frameLayout = findViewById(R.id.fragment_container);
+        frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT, 1));
+
     }
 
     /**

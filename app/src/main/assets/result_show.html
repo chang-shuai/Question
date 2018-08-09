@@ -1,0 +1,95 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" charset="utf-8"/>
+
+    <script type="text/javascript">
+
+			// 获取答题数据, 为json格式的字符串
+			function getResultData() {
+				return window.AndroidWebView.resultShow();
+			}
+
+			// 解析所有的题目
+			function paeseQuestions() {
+				var data = getResultData();
+				questionList = JSON.parse(data);
+				for (var i = 0; i < questionList.length; i++) {
+					parseQuestion(questionList[i]);
+				}
+			}
+
+			// 解析一个题目
+			function parseQuestion(question) {
+				var type = questionType(question.disp_type);
+				var mustAnswer = isMustAnswer(question.must_answer);
+				var description = question.desc.replace(/\n/g,"<br/>");
+				var title = question.cid + " (" + type + ") " + question.title + " <" + mustAnswer + "> ";
+				parseOptions(question);
+			}
+
+			function questionType(type) {
+					if(type == "q_single") {
+						return "单选题";
+					} else if(type == "q_multiple") {
+						return "多选题";
+					} else if(type == "q_blank") {
+						return "填空题";
+					} else {
+						return "";
+					}
+				}
+
+			function isMustAnswer(flag) {
+				if (flag == 1) {
+					return "必答题";
+				} else if (flag == 0) {
+					return "选答题";
+				} else {
+					return "";
+				}
+
+			}
+
+
+			// 解析所有的选项
+			function parseOptions(question) {
+				var optionList = question.option_list;
+				for (var i = 0; i < optionList.length; i++) {
+					parseOption(optionList[i]);
+				}
+			}
+
+			// 解析一个选项
+			function parseOption(option) {
+				var title = option.title;
+				var selected = option.isSelected;
+				var images = option.imagePaths;
+				"<div>" +
+
+
+				"</div>"
+			}
+
+				//var inp = document.getElementsByTagName("input")[0]
+				//inp.setAttribute("value", test);
+
+		</script>
+    <style type="text/css">
+			.circle {
+				width: 15px;
+				height: 15px;
+				background-color: red;
+				border-radius: 50%;
+				-moz-border-radius: 50%;
+				-webkit-border-radius: 50%;
+			}
+		</style>
+</head>
+<body>
+
+<div class = circle></div>
+<!--<img src="/storage/emulated/0/问卷/1533289188106.jpg" />-->
+
+</body>
+
+</html>

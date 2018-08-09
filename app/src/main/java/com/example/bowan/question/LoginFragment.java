@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.bowan.question.entity.DBManager;
+import com.example.bowan.question.entity.Questionnaire;
 import com.example.bowan.question.entity.User;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +29,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * 登录界面的Fragment碎片
@@ -118,6 +118,8 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
+
+
         /**
          * 用户名输入框
          */
@@ -203,8 +205,13 @@ public class LoginFragment extends Fragment {
         mOffLineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ChoiceActivity.newIntent(getActivity());
-                startActivity(intent);
+                List<Questionnaire> questionnaires = DBManager.getDBManager().getQuestionnaires();
+                if (questionnaires.isEmpty()) {
+                    Toast.makeText(getActivity(), "请登录后下载问卷使用", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = ChoiceActivity.newIntent(getActivity());
+                    startActivity(intent);
+                }
             }
         });
 

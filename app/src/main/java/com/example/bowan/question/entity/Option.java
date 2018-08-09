@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import org.litepal.crud.DataSupport;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Option extends DataSupport implements Serializable{
     @SerializedName("id")
@@ -24,6 +25,15 @@ public class Option extends DataSupport implements Serializable{
     @SerializedName("canuplaod")
     private int canUpLaod;
     private int isSelected;     // 此选项是否被选中, 0未被选中, 1被选中
+    private List<String> imagePaths;
+
+    public List<String> getImagePaths() {
+        return imagePaths;
+    }
+
+    public void setImagePaths(List<String> imagePaths) {
+        this.imagePaths = imagePaths;
+    }
 
     public int getMid() {
         return mid;

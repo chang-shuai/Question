@@ -10,10 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bowan.question.entity.AnswerDealer;
+import com.example.bowan.question.entity.AnswerOption;
 import com.example.bowan.question.entity.AnswerQuestion;
 import com.example.bowan.question.entity.DBManager;
 import com.example.bowan.question.entity.Dealer;
@@ -35,6 +38,8 @@ public class AnswerQuestListFragment extends Fragment {
     private Dealer mDealer;
     private int mCurrentPosition = -1;
     private QuestionAdapter mAdapter;
+    private ImageButton mArrows;
+    private boolean mFlag = true;
 
     /**
      * 封装获得AnswerQuestListFragment实例的方法, 直接在实例中保存经销商的answerId;
@@ -70,6 +75,25 @@ public class AnswerQuestListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_answer_quest_list, container, false);
+
+        mArrows = view.findViewById(R.id.answer_quest_arrows);
+        mArrows.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mFlag) {
+                    mArrows.setImageResource(R.drawable.ic_question_hide);
+                    mCallbacks.increaseWeight();
+                    mAdapter.notifyDataSetChanged();
+                    mFlag = false;
+                } else {
+                    mArrows.setImageResource(R.drawable.ic_question_show);
+                    mCallbacks.reduceWeight();
+                    mAdapter.notifyDataSetChanged();
+                    mFlag = true;
+                }
+            }
+        });
+
 
         mQuestionRecyclerView = view.findViewById(R.id.answer_quest_recycler_view);
         mQuestionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -113,7 +137,9 @@ public class AnswerQuestListFragment extends Fragment {
      * 定义回调接口, 供AnswerActivity类实现.
      */
     public interface Callbacks {
-        public void onQuestionSelected(Question question);
+        void onQuestionSelected(Question question);
+        void increaseWeight();
+        void reduceWeight();
     }
 
     /**
@@ -122,22 +148,37 @@ public class AnswerQuestListFragment extends Fragment {
     private class QuestionHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView mTextView;
+        private ImageView mImageView;
         private Question mQuestion;
 
         public QuestionHolder(View itemView) {
             super(itemView);
             mTextView = itemView.findViewById(R.id.answer_question_title);
             itemView.setOnClickListener(this);
+
+            mImageView = itemView.findViewById(R.id.answer_question_answered);
         }
 
         public void bind(Question question, int position) {
             this.mQuestion = question;
-            mTextView.setText(question.getTitle());
+            if (mFlag) {
+                mTextView.setText(question.getCid());
+            } else {
+                mTextView.setText(question.getCid()+question.getTitle());
+            }
             if (mCurrentPosition == position ) {
                 mTextView.setTextColor(Color.parseColor("#3370CC"));
             } else {
                 mTextView.setTextColor(Color.parseColor("#999999"));
             }
+            AnswerQuestion answerQuestion = DBManager.getDBManager().getAnswerQuestionByAnswerIdMid(mDealer.getAnswerId(), mQuestion.getMid());
+            if (answerQuestion != null) {
+                List<AnswerOption> answerOptions = DBManager.getDBManager().getAnswerOptionByQid(answerQuestion.getId());
+                if (answerOptions != null && !answerOptions.isEmpty()) {
+                    mImageView.setVisibility(View.VISIBLE);
+                }
+            }
+
         }
 
         @Override

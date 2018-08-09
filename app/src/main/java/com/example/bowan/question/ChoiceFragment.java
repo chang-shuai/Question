@@ -9,32 +9,20 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bowan.question.entity.DBManager;
 import com.example.bowan.question.entity.Dealer;
-import com.example.bowan.question.entity.Questionnaire;
 import com.example.bowan.question.util.GeneratePdf;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfWriter;
 
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.List;
 
 /**
@@ -51,6 +39,7 @@ public class ChoiceFragment extends Fragment {
     private int mCurrentSelectedPosition = -1;
     private DealerAdapter mAdapter;
     private RecyclerView mRecyclerView;
+    private Button mResultShow;
 
 
     @Override
@@ -105,6 +94,21 @@ public class ChoiceFragment extends Fragment {
                     startActivity(intent);
                 }
 
+            }
+        });
+
+
+        mResultShow = view.findViewById(R.id.choice_result_show);
+        mResultShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCurrentSelectedPosition < 0 ) {
+                    Toast.makeText(getActivity(), "请选择一个经销商", Toast.LENGTH_SHORT).show();
+                } else {
+                    Dealer dealer = mDealers.get(mCurrentSelectedPosition);
+                    Intent intent = ResultShowActivity.newIntent(getActivity(), dealer.getAnswerId());
+                    startActivity(intent);
+                }
             }
         });
 

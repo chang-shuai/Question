@@ -71,6 +71,15 @@ public class DBManager {
                 .findFirst(AnswerDealer.class);
     }
 
+    public List<AnswerQuestion> getAnswerQuestion() {
+        return DataSupport.findAll(AnswerQuestion.class);
+    }
+
+    public List<AnswerQuestion> getAnswerQuestionsByAnswerId(int answerId) {
+        return DataSupport.where("answerid=?", answerId+"")
+                .find(AnswerQuestion.class);
+    }
+
     public AnswerQuestion getAnswerQuestionByAnswerIdMid(int answerId, int mid) {
         return DataSupport
                 .where("answerid=? and mid=?", String.valueOf(answerId), String.valueOf(mid))
@@ -82,9 +91,36 @@ public class DBManager {
                 .findFirst(AnswerOption.class);
     }
 
-    public AnswerOption getAnswerOptionByQid(int qid) {
-        return DataSupport.where("qid=?", String.valueOf(qid))
+    public AnswerOption getAnswerOptionByMid(int mid) {
+        return DataSupport.where("mid=?",String.valueOf(mid))
                 .findFirst(AnswerOption.class);
     }
 
+
+    public List<AnswerOption> getAnswerOptionByQid(int qid) {
+        return DataSupport.where("qid=?", String.valueOf(qid))
+                .find(AnswerOption.class);
+    }
+
+    public List<AnswerImage> getAnswerImageByOid(int oid) {
+        return DataSupport.where("oid=?", oid+"")
+                .find(AnswerImage.class);
+    }
+
+    public void deleteAnswerImageById(int id) {
+        DataSupport.delete(AnswerImage.class, id);
+    }
+
+    public List<AnswerImage> getAnswerImagesByOmid(int omid) {
+        return DataSupport.where("omid=?", omid+"")
+                .find(AnswerImage.class);
+    }
+
+    public void deleteAnswerOption(int id) {
+        DataSupport.delete(AnswerOption.class, id);
+    }
+
+    public void deleteAnswerQuestion(int id) {
+        DataSupport.delete(AnswerQuestion.class, id);
+    }
 }
