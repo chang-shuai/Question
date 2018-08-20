@@ -119,7 +119,6 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
 
-
         /**
          * 用户名输入框
          */
@@ -180,7 +179,7 @@ public class LoginFragment extends Fragment {
                     }
 
                     if (mLoginStatus) {
-                        User oldUser = DBManager.getDBManager().getUserById(mUser.getMid());
+                        User oldUser = DBManager.getDBManager(getContext()).getUserById(mUser.getMid());
                         if (oldUser == null) {
                             mUser.save();
                         }
@@ -205,11 +204,11 @@ public class LoginFragment extends Fragment {
         mOffLineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Questionnaire> questionnaires = DBManager.getDBManager().getQuestionnaires();
+                List<Questionnaire> questionnaires = DBManager.getDBManager(getContext()).getQuestionnaires();
                 if (questionnaires.isEmpty()) {
                     Toast.makeText(getActivity(), "请登录后下载问卷使用", Toast.LENGTH_SHORT).show();
                 } else {
-                    Intent intent = ChoiceActivity.newIntent(getActivity());
+                    Intent intent = ChoiceActivity.newIntent(getActivity(), false, null);
                     startActivity(intent);
                 }
             }

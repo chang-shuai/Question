@@ -1,7 +1,9 @@
 package com.example.bowan.question;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -46,6 +48,9 @@ public class LoadUpdateFragment extends Fragment {
     private Button mUpdateButton;
     private User mUser;
     private String mJsonData;
+    private ProgressDialog mProgressDialog;
+
+
     private static final int SAVE_ACCOMPLISH = 0;   //accomplish
     private static final int SAVE_FAILURE = 1;       //failure
     private static final int JSON_PARSE_FAILURE = 2;
@@ -89,8 +94,11 @@ public class LoadUpdateFragment extends Fragment {
         mLoadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mProgressDialog = ProgressDialog.show(getActivity(), null, "正在加载...");
+
                 LitePal.getDatabase();
                 getJsonData();
+                mProgressDialog.dismiss();
                 int isSave = dealerJsonString();
                 if (isSave == SAVE_ACCOMPLISH) {
                     Toast.makeText(getActivity(), "下载完成", Toast.LENGTH_SHORT).show();
@@ -110,7 +118,8 @@ public class LoadUpdateFragment extends Fragment {
         mUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO 上传数据
+                Intent intent = ChoiceActivity.newIntent(getActivity(), true, mUser);
+                startActivity(intent);
             }
         });
 
@@ -155,7 +164,6 @@ public class LoadUpdateFragment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     };
 
@@ -173,7 +181,7 @@ public class LoadUpdateFragment extends Fragment {
 
 
                 List<Dealer> dealers = data.getDealers();
-                List<Dealer> oldDealers = DBManager.getDBManager().getDealers();
+                List<Dealer> oldDealers = DBManager.getDBManager(getContext()).getDealers();
                 for (Dealer dealer : dealers) {
                     if (!oldDealers.contains(dealer)) {
                         dealer.save();
@@ -181,7 +189,7 @@ public class LoadUpdateFragment extends Fragment {
                 }
 
                 Questionnaire questionnaire = data.getQuestionnaire();
-                List<Questionnaire> oldQuestionnaires = DBManager.getDBManager().getQuestionnaires();
+                List<Questionnaire> oldQuestionnaires = DBManager.getDBManager(getContext()).getQuestionnaires();
                 if (!oldQuestionnaires.contains(questionnaire)) {
                     questionnaire.save();
                 } else {

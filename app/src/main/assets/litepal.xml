@@ -19,7 +19,7 @@
 			For example:
     	<version value="1" />
     -->
-    <version value="7" />
+    <version value="9" />
 
     <!--
     	Define your models in the list with mapping tag, LitePal will
@@ -43,6 +43,8 @@
         <mapping class="com.example.bowan.question.entity.AnswerQuestion"/>
         <mapping class="com.example.bowan.question.entity.AnswerOption"/>
         <mapping class="com.example.bowan.question.entity.AnswerImage"/>
+        <mapping class="com.example.bowan.question.entity.AnswerImageUpload"/>
+        <mapping class="com.example.bowan.question.entity.GGGG"/>
     </list>
 
     <!--

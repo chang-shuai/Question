@@ -41,6 +41,7 @@ public class AnswerQuestListFragment extends Fragment {
     private ImageButton mArrows;
     private boolean mFlag = true;
 
+
     /**
      * 封装获得AnswerQuestListFragment实例的方法, 直接在实例中保存经销商的answerId;
      * @param dealer
@@ -84,11 +85,13 @@ public class AnswerQuestListFragment extends Fragment {
                     mArrows.setImageResource(R.drawable.ic_question_hide);
                     mCallbacks.increaseWeight();
                     mAdapter.notifyDataSetChanged();
+                    mCallbacks.onUpdateOption();
                     mFlag = false;
                 } else {
                     mArrows.setImageResource(R.drawable.ic_question_show);
                     mCallbacks.reduceWeight();
                     mAdapter.notifyDataSetChanged();
+                    mCallbacks.onUpdateOption();
                     mFlag = true;
                 }
             }
@@ -96,14 +99,8 @@ public class AnswerQuestListFragment extends Fragment {
 
 
         mQuestionRecyclerView = view.findViewById(R.id.answer_quest_recycler_view);
-        mQuestionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // 要展现的数据集合
-        List<Question> questions = DBManager.getDBManager().getQuestionsByQuestionnaire(mDealer.getSid());
-        mAdapter = new QuestionAdapter(questions);
-        mQuestionRecyclerView.setAdapter(mAdapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mQuestionRecyclerView.setLayoutManager(layoutManager);
+        updateUI();
         return view;
     }
 
@@ -137,15 +134,34 @@ public class AnswerQuestListFragment extends Fragment {
      * 定义回调接口, 供AnswerActivity类实现.
      */
     public interface Callbacks {
-        void onQuestionSelected(Question question);
+        void onQuestionSelected(Question question, int currentPosition);
         void increaseWeight();
         void reduceWeight();
+        void onUpdateOption();
+    }
+
+    public void updateUI() {
+        // 要展现的数据集合
+        List<Question> questions = DBManager.getDBManager(getContext()).getQuestionsByQuestionnaire(mDealer.getSid());
+        if (mAdapter == null) {
+            mAdapter = new QuestionAdapter(questions);
+            mQuestionRecyclerView.setAdapter(mAdapter);
+            mQuestionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        } else {
+            mAdapter.setQuestions(questions);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public void updateTitleColor(int currentPosition) {
+        mCurrentPosition = currentPosition;
+        updateUI();
     }
 
     /**
      *
      */
-    private class QuestionHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class QuestionHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView mTextView;
         private ImageView mImageView;
@@ -171,12 +187,19 @@ public class AnswerQuestListFragment extends Fragment {
             } else {
                 mTextView.setTextColor(Color.parseColor("#999999"));
             }
-            AnswerQuestion answerQuestion = DBManager.getDBManager().getAnswerQuestionByAnswerIdMid(mDealer.getAnswerId(), mQuestion.getMid());
+            AnswerQuestion answerQuestion = DBManager.getDBManager(getContext()).getAnswerQuestionByAnswerIdMid(mDealer.getAnswerId(), mQuestion.getMid());
             if (answerQuestion != null) {
-                List<AnswerOption> answerOptions = DBManager.getDBManager().getAnswerOptionByQid(answerQuestion.getId());
-                if (answerOptions != null && !answerOptions.isEmpty()) {
-                    mImageView.setVisibility(View.VISIBLE);
+                List<AnswerOption> answerOptions = DBManager.getDBManager(getContext()).getAnswerOptionByQid(answerQuestion.getId());
+                for (AnswerOption answerOption : answerOptions) {
+                    if (answerOption.isSelected()) {
+                        mImageView.setVisibility(View.VISIBLE);
+                        break;
+                    } else {
+                        mImageView.setVisibility(View.INVISIBLE);
+                    }
                 }
+            } else {
+                mImageView.setVisibility(View.INVISIBLE);
             }
 
         }
@@ -185,7 +208,7 @@ public class AnswerQuestListFragment extends Fragment {
         public void onClick(View v) {
             mCurrentPosition = this.getAdapterPosition();
             // 方法的实现在AnswerActivity中
-            mCallbacks.onQuestionSelected(mQuestion);
+            mCallbacks.onQuestionSelected(mQuestion, mCurrentPosition);
             mAdapter.notifyDataSetChanged();
         }
 
@@ -218,5 +241,11 @@ public class AnswerQuestListFragment extends Fragment {
         public int getItemCount() {
             return mQuestions.size();
         }
+
+        public void setQuestions(List<Question> questions) {
+            mQuestions = questions;
+        }
+
+
     }
 }

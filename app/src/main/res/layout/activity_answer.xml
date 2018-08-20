@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/fragment_answer_question_list"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent">

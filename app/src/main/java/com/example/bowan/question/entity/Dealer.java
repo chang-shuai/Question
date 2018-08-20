@@ -17,6 +17,46 @@ public class Dealer extends DataSupport implements Serializable{
     private int answerId;
     @SerializedName("dealername")
     private String dealerName;
+    @SerializedName("sdealercode")
+    private String sDealerCode;
+    @SerializedName("sarea")
+    private String sArea;
+    @SerializedName("scity")
+    private String sCity;
+    @SerializedName("sdealerfullname")
+    private String sDealerFullName;
+
+    public String getsDealerCode() {
+        return sDealerCode;
+    }
+
+    public void setsDealerCode(String sDealerCode) {
+        this.sDealerCode = sDealerCode;
+    }
+
+    public String getsArea() {
+        return sArea;
+    }
+
+    public void setsArea(String sArea) {
+        this.sArea = sArea;
+    }
+
+    public String getsCity() {
+        return sCity;
+    }
+
+    public void setsCity(String sCity) {
+        this.sCity = sCity;
+    }
+
+    public String getsDealerFullName() {
+        return sDealerFullName;
+    }
+
+    public void setsDealerFullName(String sDealerFullName) {
+        this.sDealerFullName = sDealerFullName;
+    }
 
     public int getSid() {
         return sid;
@@ -49,6 +89,10 @@ public class Dealer extends DataSupport implements Serializable{
                 "sid=" + sid +
                 ", answerId=" + answerId +
                 ", dealerName='" + dealerName + '\'' +
+                ", sDealerCode='" + sDealerCode + '\'' +
+                ", sArea='" + sArea + '\'' +
+                ", sCity='" + sCity + '\'' +
+                ", sDealerFullName='" + sDealerFullName + '\'' +
                 '}';
     }
 

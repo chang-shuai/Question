@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="org.litepal.LitePalApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,10 +25,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".ChoiceActivity" />
-        <activity android:name=".AnswerActivity" />
+        <activity android:name=".AnswerActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".LoadUpdateActivity" />
         <activity android:name=".ResultShowActivity" />
-        <activity android:name=".ImagePreviewActivity"></activity>
+        <activity android:name=".ImagePreviewActivity" />
+        <activity android:name=".QuestionPagerActivity" />
+        <activity android:name=".SelectImageActivity"></activity>
     </application>
 
 </manifest>

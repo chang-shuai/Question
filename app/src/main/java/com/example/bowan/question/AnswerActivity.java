@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.example.bowan.question.entity.AnswerQuestion;
 import com.example.bowan.question.entity.Dealer;
 import com.example.bowan.question.entity.Question;
 
@@ -17,30 +21,37 @@ import com.example.bowan.question.entity.Question;
  * 所以返回包含2个碎片的布局资源ID.
  *
  */
-public class AnswerActivity extends AppCompatActivity implements AnswerQuestListFragment.Callbacks{
+public class AnswerActivity extends AppCompatActivity implements AnswerQuestListFragment.Callbacks, AnswerMultipleOptionFragment.Callbacks{
     public static final String EXTRA_DEALER = "dealer";
 
 
     private Dealer mDealer;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer);
+
+//        ActionBar bar = getSupportActionBar();
+//        if (bar != null) {
+//            bar.hide();
+//        }
+
         if (savedInstanceState != null) {
             mDealer = (Dealer) savedInstanceState.getSerializable(EXTRA_DEALER);
         }
 
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
+        Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_answer_question_list);
         if (fragment == null) {
             fragment = createFragment();
             fragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, fragment)
+                    .add(R.id.fragment_answer_question_list, fragment)
                     .commit();
         }
+
+
     }
 
     /**
@@ -82,31 +93,38 @@ public class AnswerActivity extends AppCompatActivity implements AnswerQuestList
      * @param question
      */
     @Override
-    public void onQuestionSelected(Question question) {
+    public void onQuestionSelected(Question question, int currentPosition) {
         switch (question.getType()) {
             case "q_single":
-                    replaceFragment(AnswerSingleOptionFragment.newInstance(question));
+                replaceFragment(AnswerSingleOptionFragment.newInstance(question));
                 break;
             case "q_multiple":
-                    replaceFragment(AnswerMultipleOptionFragment.newInstance(question, mDealer.getAnswerId()));
+                replaceFragment(AnswerMultipleOptionFragment.newInstance(currentPosition, mDealer.getAnswerId()));
                 break;
             default:
                 break;
         }
     }
 
+
     @Override
     public void increaseWeight() {
-        FrameLayout frameLayout = findViewById(R.id.fragment_container);
+        FrameLayout frameLayout = findViewById(R.id.fragment_answer_question_list);
         frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT, 3));
 
     }
 
     @Override
     public void reduceWeight() {
-        FrameLayout frameLayout = findViewById(R.id.fragment_container);
+        FrameLayout frameLayout = findViewById(R.id.fragment_answer_question_list);
         frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT, 1));
 
+    }
+
+    @Override
+    public void onUpdateOption() {
+        AnswerMultipleOptionFragment optionFragment = (AnswerMultipleOptionFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_answer_option);
+        optionFragment.updateOption();
     }
 
     /**
@@ -119,4 +137,14 @@ public class AnswerActivity extends AppCompatActivity implements AnswerQuestList
                 .replace(R.id.fragment_answer_option,fragment)
                 .commit();
     }
+
+
+    @Override
+    public void onQuestionListUpdated(int currentPosition) {
+        AnswerQuestListFragment questListFragment = (AnswerQuestListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_answer_question_list);
+        questListFragment.updateTitleColor(currentPosition);
+    }
+
+
+
 }

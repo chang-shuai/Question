@@ -6,7 +6,8 @@
 
 			// 获取答题数据, 为json格式的字符串
 			function getResultData() {
-				return window.AndroidWebView.resultShow();
+				var json = window.AndroidWebView.resultShow();
+				alert(json)
 			}
 
 			// 解析所有的题目
@@ -89,7 +90,7 @@
 
 <div class = circle></div>
 <!--<img src="/storage/emulated/0/问卷/1533289188106.jpg" />-->
-
+    <input type="button" value="生成json.text" onclick="getResultData()"/>
 </body>
 
 </html>

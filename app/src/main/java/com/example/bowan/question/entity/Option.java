@@ -24,8 +24,18 @@ public class Option extends DataSupport implements Serializable{
     private int exclusive;
     @SerializedName("canuplaod")
     private int canUpLaod;
+    @SerializedName("avoidflag")
+    private int avoidFlag;
     private int isSelected;     // 此选项是否被选中, 0未被选中, 1被选中
     private List<String> imagePaths;
+
+    public int getAvoidFlag() {
+        return avoidFlag;
+    }
+
+    public void setAvoidFlag(int avoidFlag) {
+        this.avoidFlag = avoidFlag;
+    }
 
     public List<String> getImagePaths() {
         return imagePaths;
@@ -116,19 +126,4 @@ public class Option extends DataSupport implements Serializable{
         this.canUpLaod = canUpLaod;
     }
 
-    @Override
-    public String toString() {
-        return "Option{" +
-                "mid=" + mid +
-                ", cid='" + cid + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", qid=" + qid +
-                ", isOpen=" + isOpen +
-                ", openEmpty=" + openEmpty +
-                ", exclusive=" + exclusive +
-                ", canUpLaod=" + canUpLaod +
-                ", isSelected=" + isSelected +
-                '}';
-    }
 }

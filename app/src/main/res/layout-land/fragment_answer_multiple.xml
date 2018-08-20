@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingRight="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/question_title"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:id="@+id/answer_multiple_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+    </android.support.v7.widget.RecyclerView>
+
+
+    <EditText
+        android:paddingTop="10dp"
+        android:hint="@string/tips_message"
+        android:id="@+id/answer_question_description"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:enabled="true"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:minLines="4"
+        android:maxLines="4"
+        android:background="@android:drawable/edit_text"
+        android:scrollbars="vertical">
+    </EditText>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/answer_pre_question"
+            android:text="@string/pre_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/answer_next_question"
+            android:text="@string/next_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

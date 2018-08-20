@@ -9,6 +9,15 @@ public class AnswerQuestion extends DataSupport implements Serializable{
     private int id;
     private int mid;
     private int answerId;            // 经销商回答id;
+    private String answerDesc;
+
+    public String getAnswerDesc() {
+        return answerDesc;
+    }
+
+    public void setAnswerDesc(String answerDesc) {
+        this.answerDesc = answerDesc;
+    }
 
     public int getId() {
         return id;

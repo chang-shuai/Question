@@ -9,6 +9,15 @@ public class AnswerImage extends DataSupport implements Serializable{
     private int omid;
     private int oid;
     private String imagePath;
+    private boolean uploaded;
+
+    public boolean isUploaded() {
+        return uploaded;
+    }
+
+    public void setUploaded(boolean uploaded) {
+        this.uploaded = uploaded;
+    }
 
     public int getOmid() {
         return omid;

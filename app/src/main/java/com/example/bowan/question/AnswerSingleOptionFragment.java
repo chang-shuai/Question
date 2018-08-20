@@ -50,7 +50,7 @@ public class AnswerSingleOptionFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mQuestion = (Question) getArguments().getSerializable(SINGLE_ARG_QUESTION);
-        mOptions = DBManager.getDBManager().getOptionsByQuestionId(mQuestion.getMid());
+        mOptions = DBManager.getDBManager(getContext()).getOptionsByQuestionId(mQuestion.getMid());
 
     }
 
@@ -61,7 +61,7 @@ public class AnswerSingleOptionFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mOptions = DBManager.getDBManager().getOptionsByQuestionId(mQuestion.getMid());
+        mOptions = DBManager.getDBManager(getContext()).getOptionsByQuestionId(mQuestion.getMid());
 
     }
 
@@ -85,7 +85,7 @@ public class AnswerSingleOptionFragment extends Fragment {
                     option.save();
                 }
                 RadioButton radioButton = group.findViewById(checkedId);
-                Option option = DBManager.getDBManager().getOptionById(radioButton.getId()-OPTION_ID_EXTRA);
+                Option option = DBManager.getDBManager(getContext()).getOptionById(radioButton.getId()-OPTION_ID_EXTRA);
                 option.setIsSelected(1);
                 option.save();
 

@@ -37,6 +37,15 @@ public class Question extends DataSupport implements Serializable{
     @SerializedName("option_list")
     private List<Option> options;
     private int questionnaireId;
+    private String answerDesc;
+
+    public String getAnswerDesc() {
+        return answerDesc;
+    }
+
+    public void setAnswerDesc(String answerDesc) {
+        this.answerDesc = answerDesc;
+    }
 
     public int getQuestionnaireId() {
         return questionnaireId;
